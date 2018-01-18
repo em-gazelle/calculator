@@ -1,24 +1,11 @@
-# README
+Evaluating equations in Reverse Polish Notation:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+From the command line, run: 
+	$ thor calculate:polish "equation_in_reverse_polish_notation"
+to calculate equations written in reverse polish notation, with each numerator and operator separated by one space.
 
-Things you may want to cover:
+Example:
+	$ thor calculate:polish "8 -.5 + 2.5 7 * -"
 
-* Ruby version
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+~Run on Rails 5~
