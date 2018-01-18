@@ -5,7 +5,7 @@ From the command line, run:
 to calculate equations written in reverse polish notation, with each numerator and operator separated by one space.
 
 Example:
+	
 	$ thor calculate:polish "8 -.5 + 2.5 7 * -"
 
-
-~Run on Rails 5~
+Run on Rails 5
