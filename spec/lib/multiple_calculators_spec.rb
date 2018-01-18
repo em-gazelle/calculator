@@ -32,6 +32,7 @@ RSpec.describe MultipleCalculators::ReversePolishNotation do
             end
             it 'returns error if quantity of operators does not match expected quantity of numbers' do
 				expect(calculator.new("8 1 3 4 + -").calculate).to eq("Invalid input -- quantity of operators do not match expected quantity of numbers")
+				expect(calculator.new("3 4 * -2.5 / 8 * 2 / /").calculate).to eq("Invalid input -- quantity of operators do not match expected quantity of numbers")
             end
         end	
     end    

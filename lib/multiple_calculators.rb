@@ -12,8 +12,8 @@ module MultipleCalculators
 		end
 
 		def calculate
-			@first_operator ||= find_first_operator unless @answer
-			handle_operator_and_prior_two_numbers unless @answer
+			@first_operator ||= find_first_operator
+			handle_operator_and_prior_two_numbers
 			@first_operator = (operator?(@expression[@first_operator-1]) ? (@first_operator-1) : nil) unless @answer
 			calculate unless @answer
 			@answer
@@ -27,28 +27,34 @@ module MultipleCalculators
 		end
 
 		def handle_operator_and_prior_two_numbers
-			if (@expression[@first_operator] == "/") && (@expression[@first_operator-1].to_f == 0.0)
-				@answer = "Invalid input -- cannot divide by zero"
-			else
-				evaluation_of_prior_two_nums_and_operator = @expression[@first_operator-2].to_f.method(@expression[@first_operator]).(@expression[@first_operator-1].to_f)
-				beginning_index = (@first_operator-3)
-				@expression = (beginning_index >= 0 ? @expression[0..beginning_index] : []) + [evaluation_of_prior_two_nums_and_operator] + @expression[(@first_operator+1)..-1]
+			unless @answer
+				if (@expression[@first_operator] == "/") && (@expression[@first_operator-1].to_f == 0.0)
+					@answer = "Invalid input -- cannot divide by zero"
+				elsif (@first_operator-2) < 0
+					@answer = "Invalid input -- quantity of operators do not match expected quantity of numbers"
+				else
+					evaluation_of_prior_two_nums_and_operator = @expression[@first_operator-2].to_f.method(@expression[@first_operator]).(@expression[@first_operator-1].to_f)
+					beginning_index = (@first_operator-3)
+					@expression = (beginning_index >= 0 ? @expression[0..beginning_index] : []) + [evaluation_of_prior_two_nums_and_operator] + (@expression[(@first_operator+1)..-1] || [])
+				end
 			end
 		end
 
 		def find_first_operator
-			@first_operator = @expression.index{|element| operator?(element)}
-			if @first_operator.nil?
-				if @expression.size == 1
-					@answer = @expression.first
+			unless @answer
+				@first_operator = @expression.index{|element| operator?(element)}
+				if @first_operator.nil?
+					if @expression.size == 1
+						@answer = @expression.first
+					else
+						@answer = "Invalid input -- quantity of operators do not match expected quantity of numbers"
+					end
 				else
-					@answer = "Invalid input -- quantity of operators do not match expected quantity of numbers"
-				end
-			else
-				if @expression.size >= 3
-					@first_operator
-				else
-					@answer = "Invalid input -- quantity of operators do not match expected quantity of numbers"
+					if @expression[0..@first_operator].size >= 3
+						@first_operator
+					else
+						@answer = "Invalid input -- quantity of operators do not match expected quantity of numbers"
+					end
 				end
 			end
 		end
